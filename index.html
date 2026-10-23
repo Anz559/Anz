@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07110f"><meta name="description" content="Anz Community — ruang ngobrol komunitas dengan login akun.">
+  <title>Anz Community — Login & Chat</title><link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./config.js"></script>
+</head>
+<body>
+  <header class="top wrap"><a class="brand" href="./"><span class="mark">A</span><span>ANZ<span style="color:var(--green)">.</span><small>COMMUNITY ROOM</small></span></a><div class="top-links"><span class="pill"><i class="dot"></i> COMMUNITY ONLINE</span><a class="btn btn-outline" href="./developer.html">Developer ↗</a></div></header>
+  <main class="wrap layout" id="authLayout">
+    <section class="hero"><span class="hero-kicker">✦ A COMMUNITY THAT FEELS CLOSE</span><h1>Ngobrol santai.<br><span>Tetap terhubung.</span></h1><p>Selamat datang di ruang komunitas Anz. Buat akun menggunakan username dan password pilihanmu, lalu ngobrol bersama anggota lain. Pesan disimpan online dan riwayat lama dibersihkan secara berkala.</p><div class="hero-stats"><div class="stat"><strong>01</strong><span>Username unik</span></div><div class="stat"><strong>24/7</strong><span>Ruang komunitas</span></div><div class="stat"><strong>7 hari</strong><span>Riwayat chat</span></div></div></section>
+    <section class="card auth-card" id="authCard">
+      <div class="card-head"><div><h2 id="authHeading">Masuk ke Anz</h2><p id="authSubheading">Lanjutkan obrolanmu.</p></div><span class="mark">✦</span></div>
+      <div class="tabs"><button type="button" class="tab active" id="loginTab">Login</button><button type="button" class="tab" id="registerTab">Daftar akun</button></div>
+      <form id="authForm">
+        <div class="field"><label for="username">Username</label><input id="username" name="username" required minlength="3" maxlength="24" autocomplete="username" placeholder="Contoh: anz_kece" pattern="[A-Za-z0-9_.-]{3,24}"><span class="help">Bebas pilih nama, tetapi harus unik. Gunakan 3–24 karakter: huruf, angka, titik, garis bawah, atau tanda minus.</span></div>
+        <div class="field"><label for="password">Password</label><input id="password" name="password" required minlength="8" maxlength="72" type="password" autocomplete="current-password" placeholder="Minimal 8 karakter"></div>
+        <div id="passwordConfirmField" class="field hidden"><label for="passwordConfirm">Ulangi password</label><input id="passwordConfirm" name="passwordConfirm" type="password" minlength="8" maxlength="72" autocomplete="new-password" placeholder="Masukkan password yang sama"></div>
+        <button class="btn btn-primary btn-full" type="submit" id="authSubmit">Masuk ke chat ↗</button>
+        <div class="status hidden" id="authStatus" role="status"></div>
+      </form>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:13px"><span class="help">Jangan bagikan password ke siapa pun.</span><button type="button" class="text-btn" id="forgotButton">Lupa password?</button></div>
+      <form id="forgotForm" class="hidden" style="margin-top:15px;border-top:1px solid var(--line);padding-top:10px">
+        <p class="help">Masukkan username akunmu dan cara admin menghubungimu. Developer Anz akan memeriksa permintaanmu. Jangan masukkan password lama.</p>
+        <div class="field"><label for="forgotUsername">Username akun</label><input id="forgotUsername" required minlength="3" maxlength="24" placeholder="Username yang kamu ingat"></div>
+        <div class="field"><label for="forgotContact">Kontak (WhatsApp, opsional)</label><input id="forgotContact" maxlength="40" placeholder="Nomor yang bisa dihubungi"></div>
+        <div class="field"><label for="forgotReason">Keterangan (opsional)</label><textarea id="forgotReason" rows="2" maxlength="300" placeholder="Info tambahan untuk admin"></textarea></div>
+        <button class="btn btn-outline btn-full" type="submit" id="forgotSubmit">Kirim permintaan reset</button><div class="status hidden" id="forgotStatus" role="status"></div>
+      </form>
+    </section>
+  </main>
+  <main class="chat-page hidden" id="chatLayout">
+    <section class="card chat-card">
+      <header class="appbar"><div class="appbar-title"><span class="mark">A</span><span><strong>Anz Community</strong><small>Ruang chat publik · data tersimpan online</small></span></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><a href="./developer.html" class="btn btn-outline">Developer</a><button id="logoutButton" class="btn btn-outline" type="button">Keluar</button></div></header>
+      <div class="chat-content"><aside class="chat-sidebar"><div class="userbox"><div class="user-avatar" id="userAvatar">A</div><div><strong id="signedUsername">username</strong><small>Anggota Anz Community</small></div></div><div class="side-label">RUANGAN</div><div class="side-item active"><span>◉</span> Community Room</div><div class="side-note">✨ Jaga obrolan tetap nyaman.<br><br>Pesan dapat dibaca anggota login lain dan moderator. Jangan bagikan password, alamat pribadi, atau data sensitif.</div></aside>
+        <section class="chat-main"><div class="room-head"><div><strong>💬 Community Room</strong><small><i class="dot" style="display:inline-block;vertical-align:middle;margin-right:5px"></i> Semua anggota yang login dapat mengobrol</small></div><span class="pill">⌛ 7 hari</span></div><div class="feed" id="chatFeed"><div class="empty"><div class="mark">✦</div><strong>Memuat percakapan...</strong></div></div><div class="status hidden" id="chatStatus" style="margin:0 14px 10px" role="status"></div><form id="chatForm" class="chat-compose"><input id="chatMessage" required maxlength="1000" autocomplete="off" placeholder="Tulis pesan untuk semua orang..."><button type="submit" class="btn btn-primary" aria-label="Kirim">➤</button></form><div class="chat-bottom"><span>BE KIND • KEEP IT SAFE</span><span id="connectionLabel">Menghubungkan...</span></div></section>
+      </div>
+    </section><footer class="footer"><span>© <span id="year"></span> Anz Community</span><span>Riwayat chat dibersihkan setelah 7 hari.</span></footer>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body></html>
